@@ -2,11 +2,24 @@
 
 namespace app\controller;
 
+use app\BaseController;
 use app\model\User;
 use think\facade\Db;
 
-class DataTest
+class DataTest extends BaseController
 {
+    public function initialize()
+    {
+        Db::event('before_select', function ($query) {
+            echo '执行了批量查询';
+        });
+        Db::event('before_find', function ($query) {
+            echo '查询了一条数据';
+        });
+        Db::event('after_update', function ($query) {
+            echo '执行了修改操作';
+        });
+    }
     public function index()
     {
         // $requrst =  Db::table('tp_user')->select();
@@ -42,16 +55,18 @@ class DataTest
     public function insert()
     {
         $data = [
-            'keywords' => '漩涡鸣人',
-            'link' => 'https://www.baidu.com/s?tn=02003390_hao_pg&ie=utf-8&wd=%E6%BC%A9%E6%B6%A1%E9%B8%A3%E4%BA%BA',
-            'img' => 'https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E6%BC%A9%E6%B6%A1%E9%B8%A3%E4%BA%BA&step_word=&hs=0&pn=3&spn=0&di=103070&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=129112372%2C1288772961&os=4292307746%2C3314956532&simid=3479918948%2C341205045&adpicid=0&lpn=0&ln=1685&fr=&fmq=1613637071931_R&fm=&ic=undefined&s=undefined&hd=undefined&latest=undefined&copyright=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=https%3A%2F%2Fgimg2.baidu.com%2Fimage_search%2Fsrc%3Dhttp%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201805%2F22%2F20180522212246_kshuv.thumb.700_0.jpg%26refer%3Dhttp%3A%2F%2Fb-ssl.duitang.com%26app%3D2002%26size%3Df9999%2C10000%26q%3Da80%26n%3D0%26g%3D0n%26fmt%3Djpeg%3Fsec%3D1616229074%26t%3Dbfadb6863820e2c21a308d32263c2a54&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3B17tpwg2_z%26e3Bv54AzdH3Fks52AzdH3F%3Ft1%3Dldlbdlmda&gsm=1&rpstart=0&rpnum=0&islist=&querylist=&force=undefined',
-            'position' => 1,
-            'industry' => 1,
-            'time' => 1612022400,
-            'state' => 2
+            'username' => '辉夜',
+            'password' => '123',
+            'gender' => '女',
+            'email' => 'huiye@163.com',
+            'price' => 90,
+            'details' => '123',
+            'uid' => 1011,
+            'status' => 1,
+            'list' => ['username' => '辉夜', 'gender' => '女', 'email' => 'huiye@163.com'],
         ];
         //return Db::name('user')->insert($data);
-        return Db::name('user')->save($data);
+        return Db::name('user')->json(['list'])->insert($data);
     }
     public function update()
     {
@@ -64,7 +79,11 @@ class DataTest
         //     'keywords' => '宇智波佐助'
         // ];
         // return Db::name('user')->update($data);
-        return Db::name('user')->where('id', 19)->save(['keywords' => '宇智波鼬']);
+        //return Db::name('user')->where('id', 19)->save(['keywords' => '宇智波鼬']);
+        // $data['img'] = ['username' => '李白', 'gender' => '男', 'email' => 'libai@163.com'];
+        // Db::name('user')->json(['img'])->where('id', 43)->update($data);
+        $data['list->username'] = '一乐';
+        return Db::name('user')->json(['list'])->where('id', 306)->update($data);
     }
     public function delete()
     {
@@ -75,7 +94,10 @@ class DataTest
     public function query()
     {
         //$res = Db::name('user')->where('keywords', 'like', '%公%')->select(); //模糊查询
-        $res = Db::name('user')->where('keywords', 'like', ['%漩%', '%宇%'], 'or')->select(); //模糊查询
+        //$res = Db::name('user')->where('keywords', 'like', ['%漩%', '%宇%'], 'or')->select(); //模糊查询
+        $res = Db::name('user')->where('status', 1)->select();
+        //$res = Db::name('user')->json(['list'])->where('list->username', '大筒木辉夜')->find();
+        //return Db::getLastsql();
         return json($res);
     }
     public function limit()

@@ -13,5 +13,6 @@ use think\facade\Route;
 Route::get('think', function () {
     return 'hello,ThinkPHP6!';
 });
-
 Route::get('hello/:name', 'index/hello');
+//自定义路由
+Route::rule('ad/:id', 'Address/details');
