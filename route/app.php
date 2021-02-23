@@ -8,6 +8,8 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+
+use app\validate\User;
 use think\facade\Route;
 
 Route::get('think', function () {
@@ -16,3 +18,4 @@ Route::get('think', function () {
 Route::get('hello/:name', 'index/hello');
 //自定义路由
 Route::rule('ad/:id', 'Address/details');
+Route::rule('vr/:id', 'Verify/route')->validate(User::class, 'route');
