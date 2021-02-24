@@ -1,9 +1,9 @@
 <?php
 
-namespace app\controller;
+namespace app\index\controller;
 
 use app\BaseController;
-use app\model\User;
+use app\index\model\User;
 use think\facade\Db;
 
 class DataTest extends BaseController

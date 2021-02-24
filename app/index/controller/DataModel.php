@@ -1,9 +1,9 @@
 <?php
 
-namespace app\controller;
+namespace app\index\controller;
 
 use app\BaseController;
-use app\model\User as UserModel;
+use app\index\model\User as UserModel;
 
 class DataModel
 {

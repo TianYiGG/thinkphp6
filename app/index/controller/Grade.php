@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controller;
+namespace app\index\controller;
 
-use app\model\User as UserModel;
-use app\model\Profile as ProfileModel;
-use app\model\Role;
+use app\index\model\User as UserModel;
+use app\index\model\Profile as ProfileModel;
+use app\index\model\Role;
 
 class Grade
 {

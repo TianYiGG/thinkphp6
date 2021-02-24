@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controller;
+namespace app\index\controller;
 
 use app\validate\User;
 use think\facade\Validate;
